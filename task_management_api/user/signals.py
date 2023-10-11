@@ -8,3 +8,14 @@ from .models import Profile
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+
+# i am not going to use this at all i will remove this in final PR
+@receiver(post_save, sender=User)
+def generate_auto_username(sender, instance, **kwargs):
+    if not instance.username:
+        username = f'{instance.first_name}_{instance.last_name}'.lower()
+        cnt = 1
+        while User.objects.filter(username=username):
+            username = f'{instance.first_name}_{instance.last_name}_{cnt}'.lower()
+            cnt += 1
+        instance.username = username
