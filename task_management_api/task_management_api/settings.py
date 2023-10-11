@@ -103,6 +103,11 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+# creating customize permisions
+REST_FRAMEWORK = {
+    'DEFAULT_PERISSION_CLASS': ['rest_framework.permission.IsAuthenticatedOrReadOnly', ]
+}
+
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
