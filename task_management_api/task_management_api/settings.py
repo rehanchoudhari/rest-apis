@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'oauth2_provider',
+    'social_django',
+    'drf_social_oauth2',
     'user',
 ]
 
@@ -65,6 +68,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -78,8 +83,14 @@ WSGI_APPLICATION = 'task_management_api.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'task_management',
+        'USER': 'root',
+        'PASSWORD': '',
+        'HOST': 'localhost',
+        'PORT': '3306',
     }
 }
 
@@ -105,8 +116,24 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # creating customize permisions
 REST_FRAMEWORK = {
-    'DEFAULT_PERISSION_CLASS': ['rest_framework.permission.IsAuthenticatedOrReadOnly', ]
+    'DEFAULT_PERISSION_CLASS': ['rest_framework.permission.IsAuthenticatedOrReadOnly', ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        # REST FRAMEWORK AUTHENTICATION CLASSES
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        # OAuth2 authentication classes
+        'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+        'drf_social_oauth2.authentication.SocialAuthentication',
+    ]
 }
+
+# authentication for backend
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'drf_social_oauth2.backends.DjangoOAuth2',
+)
+
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
