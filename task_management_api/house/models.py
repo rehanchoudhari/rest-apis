@@ -29,3 +29,6 @@ class House(models.Model):
     points = models.IntegerField(default=0)
     completed_task_count = models.IntegerField(default=0)
     incompleted_task_count = models.IntegerField(default=0)
+
+    def __str__(self):
+        return f'{self.id} | {self.name}'
