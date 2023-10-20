@@ -6,9 +6,10 @@ from django.utils.deconstruct import deconstructible
 
 # Create your models here.
 
+@deconstructible
 class GenerateHouseImagePath(object):
     
-    def __init__(self) -> None:
+    def __init__(self):
         pass
 
     def __call__(self, instance, file_name):
@@ -17,7 +18,7 @@ class GenerateHouseImagePath(object):
         name = f'main.{ext}'
         return os.path.join(path, name)
 
-image_path = GenerateHouseImagePath
+image_path = GenerateHouseImagePath()
 
 class House(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
