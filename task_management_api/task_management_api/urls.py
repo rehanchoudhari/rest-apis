@@ -17,8 +17,11 @@ Including another URLconf
 from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include, re_path
+# router path
 from user import router as user_api_router
 from house import router as house_api_router
+from task import router as task_api_router
+
 from django.conf.urls.static import static
 
 auth_api_url = [
@@ -32,6 +35,7 @@ api_url_patterns = [
     path('auth/', include(auth_api_url)),
     path('accounts/', include(user_api_router.router.urls)),
     path('houses/', include(house_api_router.router.urls)),
+    path('task/', include(task_api_router.router.urls)),
 ]
 
 urlpatterns = [
