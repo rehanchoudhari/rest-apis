@@ -1,15 +1,21 @@
 from django.contrib.auth.models import User
-from rest_framework import viewsets, status
+from rest_framework import viewsets, status, filters
 from .models import House
 from .serializers import HouseSerializer
 from .permissions import IsHouseManagerOrNone
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django_filters.rest_framework import DjangoFilterBackend
 
 class HouseViewSet(viewsets.ModelViewSet):
     permission_classes = [IsHouseManagerOrNone, ]
     queryset = House.objects.all()
     serializer_class = HouseSerializer
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend, filters.OrderingFilter]
+    search_fields = ['=name', 'description']
+    ordering_fields = ['points', 'completed_task_count', 'notcompleted_tasks_count', ]
+    filterset_fields = ['members', ]
+
 
     @action(detail=True, methods=['post'], name='join', permission_classes=[])
     def join(self, request, pk=None):
