@@ -1,9 +1,9 @@
 from django.apps import AppConfig
 
 
-class TaskConfig(AppConfig):
+class BackgroundJobsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'task'
-
+    name = 'background_jobs'
+    
     def ready(self):
-        import task.signals
+        import background_jobs.tasks
